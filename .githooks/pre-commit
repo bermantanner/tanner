@@ -1,0 +1,36 @@
+#!/bin/sh
+# Regenerates the resume fallback image whenever the resume PDF is committed.
+#
+# Mobile browsers generally refuse to embed PDFs inline and fall back to the
+# PNG instead. If that PNG goes stale the failure is silent:
+# desktop shows the new resume while mobile keeps serving the old one.
+
+set -e
+
+PDF="static/tanner_berman_resume.pdf"
+PNG="static/tanner_berman_resume.png"
+WIDTH=1400
+
+# Nothing to do unless the PDF is part of this commit.
+# R (rename) matters too: a rename-plus-edit in one commit still reports as R,
+# and skipping it would leave a stale PNG.
+if ! git diff --cached --name-only --diff-filter=ACMR | grep -qx "$PDF"; then
+  exit 0
+fi
+
+if ! command -v sips >/dev/null 2>&1; then
+  echo "pre-commit: sips not found, cannot regenerate $PNG" >&2
+  echo "  Regenerate it manually and commit again, or skip with --no-verify." >&2
+  exit 1
+fi
+
+# Render from the staged blob rather than the working tree, so the PNG always
+# matches the exact PDF being committed.
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+git show ":$PDF" > "$tmp/resume.pdf"
+
+sips -s format png --resampleWidth "$WIDTH" "$tmp/resume.pdf" --out "$PNG" >/dev/null
+git add "$PNG"
+
+echo "pre-commit: regenerated $PNG from $PDF"
