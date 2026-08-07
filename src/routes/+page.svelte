@@ -5,50 +5,83 @@
 
 <main class="page">
   <header class="intro">
-    <h1 class="name">Tanner J. Berman</h1>
+    <h1 class="name">Tanner Berman</h1>
     <p class="tagline">
-      Hi!
+      I'm a software engineer passionate about AI-driven tech, backend work, and data engineering. I also love tinkering with fun low-level projects and occasionally diving into reverse engineering. I'm also a singer-guitarist, beach volleyball player, and an avid foodie.
     </p>
   </header>
 
-  <a class="center-link" href="/resume">Resume</a>
-  <a class="center-link" href="https://github.com/bermantanner">GitHub</a>
+  <nav class="links">
+    <a class="center-link" href="/resume">Resume</a>
+    <a class="center-link" href="https://github.com/bermantanner">GitHub</a>
+    <a class="center-link" href="https://www.linkedin.com/in/tanner-berman/">LinkedIn</a>
+  </nav>
 </main>
 
 <style>
   .intro {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    text-align: center;
+    align-items: flex-start;
+    gap: 1.5rem;
     margin-bottom: 0.75rem;
   }
 
+  /* Tops out at 4rem (64px), scaling down on narrow screens so it can't
+     overflow a phone. */
   .name {
     margin: 0;
-    font-size: clamp(2rem, 6vw, 3.25rem);
-    font-weight: 500;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
   }
 
   .tagline {
     margin: 0;
-    max-width: 32rem;
-    font-size: clamp(0.95rem, 2vw, 1.05rem);
+    max-width: 42.5rem;
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
+    letter-spacing: -0.01em;
     color: var(--muted);
   }
 
+  /* wrap so they stack rather than overflow if a label grows or the screen is
+     very narrow. */
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
   .center-link {
-    font-size: clamp(1.5rem, 5vw, 2.5rem);
+    font-family: var(--font-mono);
+    font-size: clamp(1.125rem, 3vw, 1.5rem);
     font-weight: 500;
+    letter-spacing: 0.03em;
     text-decoration: none;
     color: var(--fg);
-    border-bottom: 2px solid transparent;
-    transition: border-color 0.2s ease;
+    /* em padding so the box scales with the font size above. */
+    padding: 0.55em 1.15em;
+    border: 1px solid var(--fg);
+    transition: transform 0.2s ease;
   }
 
   .center-link:hover,
   .center-link:focus-visible {
     transform: scale(1.05);
+  }
+
+  /* reduced-motion preference */
+  @media (prefers-reduced-motion: reduce) {
+    .center-link {
+      transition: none;
+    }
+
+    .center-link:hover,
+    .center-link:focus-visible {
+      transform: none;
+      text-decoration: underline;
+      text-underline-offset: 0.2em;
+    }
   }
 </style>

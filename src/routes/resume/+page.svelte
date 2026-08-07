@@ -36,8 +36,10 @@
 </main>
 
 <style>
+  /* Wider than the shared 46rem column so the document still gets its full
+     760px rather than being squeezed by the text-column width. */
   .page-resume {
-    justify-content: flex-start;
+    max-width: 52rem;
     padding-block: 3rem;
   }
 

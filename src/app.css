@@ -1,31 +1,18 @@
-/* Self-hosted so the site keeps no third-party dependency and needs no extra
-   connection to load. One variable file covers the whole 100-700 weight range. */
-@font-face {
-  font-family: 'Roboto Mono';
-  font-style: normal;
-  font-weight: 100 700;
-  font-display: swap;
-  src: url('/fonts/roboto-mono-latin.woff2') format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
-    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
-    U+2212, U+2215, U+FEFF, U+FFFD;
-}
-
 :root {
-  color-scheme: light dark;
-  --bg: #ffffff;
-  --fg: #111111;
-  --muted: #666666;
-  --shadow: rgba(0, 0, 0, 0.15);
+  color-scheme: dark;
+  --bg: #111111;
+  --fg: #f5f5f5;
+  --muted: #cccccc;
+  --shadow: rgba(0, 0, 0, 0.5);
+  --border: rgba(245, 245, 245, 0.22);
+  --accent: #ffb86b;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    'Liberation Mono', 'Courier New', monospace;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #111111;
-    --fg: #f5f5f5;
-    --muted: #aaaaaa;
-    --shadow: rgba(0, 0, 0, 0.5);
-  }
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 
 * {
@@ -36,7 +23,12 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--fg);
-  font-family: 'Roboto Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-family: -apple-system, BlinkMacSystemFont, Roboto, 'Segoe UI', Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.125rem;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Shared page shell. Global rather than component-scoped since every route
@@ -46,8 +38,17 @@ body {
   min-height: 100dvh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* Content sits flush left, but the column itself stays centred in the
+     viewport via margin-inline. */
+  align-items: flex-start;
+  /* Anchored to the top rather than vertically centred: left-aligned layouts
+     read better from a fixed starting point than floating mid-viewport. */
+  justify-content: flex-start;
   gap: 1.5rem;
-  padding: 2rem 1.5rem;
+  width: 100%;
+  max-width: 46rem;
+  margin-inline: auto;
+  /* Top padding scales with viewport height so it breathes on a tall screen
+     without pushing content off a short one. */
+  padding: clamp(3rem, 12vh, 7rem) 1.5rem 4rem;
 }
