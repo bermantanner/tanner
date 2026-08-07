@@ -56,6 +56,9 @@
   }
 
   .download-btn {
+    /* .page aligns its children left; this one opts out and centres under the
+       document. */
+    align-self: center;
     display: inline-flex;
     align-items: center;
     justify-content: center;

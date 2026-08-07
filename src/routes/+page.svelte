@@ -53,6 +53,20 @@
     gap: 1rem;
   }
 
+  /* Below ~480px the three buttons can't share a row without overflowing a
+     320px phone, and wrapping leaves a lone orphan on the second line. Stack
+     all three full-width instead, so it reads as deliberate. */
+  @media (max-width: 30rem) {
+    .links {
+      flex-direction: column;
+      width: 100%;
+    }
+
+    .center-link {
+      text-align: center;
+    }
+  }
+
   .center-link {
     font-family: var(--font-mono);
     font-size: clamp(1.125rem, 3vw, 1.5rem);
